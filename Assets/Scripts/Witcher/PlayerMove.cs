@@ -8,13 +8,20 @@ public class PlayerMove : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     [SerializeField] private float _moveSpeed;
-    private AnimatorController _animatorController;
     [SerializeField] private float _minMoveX;
+    [SerializeField] private float _escapeTime;
+    [SerializeField] private float _escapeSpeed;
+    private ColliderController _collider;
+    private AttackMode _attackMode;
+    private AnimatorController _animatorController;
+
     private bool _playerCanWalk = true;
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animatorController = GetComponent<AnimatorController>();
+        _attackMode = GetComponent<AttackMode>();
+        _collider = GetComponent<ColliderController>();
     }
 
     public void Move(float moveX)
@@ -39,6 +46,14 @@ public class PlayerMove : MonoBehaviour
     private void FlipCheck(float moveX)
     {
         transform.localScale = new Vector2(Mathf.Sign(moveX), 1);
+    }
+    public void Escape()
+    {
+        _attackMode.TurnOn();
+        _animatorController.PlayEscapeAnimation();
+        _collider.TurnOff();    
+        StopAllCoroutines();
+        StartCoroutine(MoveCorutine(_escapeTime, _escapeSpeed));
     }
     public void MoveByDirection(float moveTime, float moveSpeed)
     {

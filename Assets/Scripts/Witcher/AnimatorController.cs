@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
     private Animator _animator;
+    [SerializeField] private RuntimeAnimatorController _withcerCalmAnimator;
+    [SerializeField] private RuntimeAnimatorController _withcerFightAnimator;
 
     private readonly string _walkAnimationName = "IsWalk";
+    private readonly string _escapeAnimationName = "Escape";
 
 
     private void Start()
@@ -15,11 +15,14 @@ public class AnimatorController : MonoBehaviour
         _animator = GetComponent<Animator>();  
     }
 
-    public void PlayIdleAnimation()
+    public void SetWitcherFightAnimator()
     {
-        _animator.Play("Idle");
+        _animator.runtimeAnimatorController = _withcerFightAnimator;
     }
-
+    public void SetWitcherCalmAnimator()
+    {
+        _animator.runtimeAnimatorController = _withcerCalmAnimator;
+    }
     public void PlayWalkAnimation()
     {
         _animator.SetBool(_walkAnimationName, true);
@@ -28,6 +31,10 @@ public class AnimatorController : MonoBehaviour
     public void StopWalkAnimation()
     {
         _animator.SetBool(_walkAnimationName, false);
+    }
+    public void PlayEscapeAnimation()
+    {
+        _animator.SetTrigger(_escapeAnimationName);
     }
 
 }

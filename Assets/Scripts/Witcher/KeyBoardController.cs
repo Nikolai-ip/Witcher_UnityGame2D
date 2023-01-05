@@ -4,6 +4,7 @@ public class KeyBoardController : MonoBehaviour
 {
     private PlayerMove _playerMove;
     private AttackController _playerAttack;
+    
     enum Mouse
     {
         LeftButton,
@@ -21,7 +22,14 @@ public class KeyBoardController : MonoBehaviour
     }
     private void Update()
     {
-
+        CheckAttackButtonsPressed();
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            _playerMove.Escape();
+        }
+    }
+    private void CheckAttackButtonsPressed()
+    {
         if (Input.GetMouseButtonDown((int)Mouse.LeftButton))
         {
             _playerAttack.Attack(_leftAttack);

@@ -3,16 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HitPoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - EnviromentFirstPlan
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: EnviromentFirstPlan
+    uniqueID: 847169649
+    locked: 0
+  - name: Player
+    uniqueID: 1825371759
+    locked: 0
+  - name: EnviromentSecondPlan
+    uniqueID: 2910344959
     locked: 0
