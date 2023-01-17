@@ -42,12 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: EnviromentFirstPlan
+  - name: EnviromentSecondPlan
     uniqueID: 847169649
     locked: 0
-  - name: Player
+  - name: Entity
     uniqueID: 1825371759
     locked: 0
-  - name: EnviromentSecondPlan
+  - name: EnviromentFirstPlan
     uniqueID: 2910344959
+    locked: 0
+  - name: UI
+    uniqueID: 406162321
     locked: 0

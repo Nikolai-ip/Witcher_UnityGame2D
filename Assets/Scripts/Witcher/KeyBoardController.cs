@@ -1,54 +1,53 @@
 using UnityEngine;
 
-public class KeyBoardController : MonoBehaviour
+public class KeyBoardController : InputController
 {
-    private PlayerMove _playerMove;
-    private AttackController _playerAttack;
-    
-    enum Mouse
-    {
-        LeftButton,
-        RightButton,
-        CenterButton
-    }
-    private LeftAttack _leftAttack = new LeftAttack();
-    private RightAttack _rightAttack = new RightAttack();
-    private Pirouette _pirouetteAttack = new Pirouette();
+
 
     private void Start()
     {
-        _playerMove = GetComponent<PlayerMove>();
-        _playerAttack= GetComponent<AttackController>();
+        playerMove = GetComponent<PlayerMove>();
+        playerAttack = GetComponent<AttackController>();
     }
+
     private void Update()
     {
-        CheckAttackButtonsPressed();
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (playerAttack!= null)
         {
-            _playerMove.Escape();
+            CheckAttackButtonsPressed();
         }
+        if (playerMove!= null)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerMove.Escape();
+            }
+        }
+
     }
+
     private void CheckAttackButtonsPressed()
     {
         if (Input.GetMouseButtonDown((int)Mouse.LeftButton))
         {
-            _playerAttack.Attack(_leftAttack);
+            playerAttack.Attack(leftAttack);
         }
         if (Input.GetMouseButtonDown((int)Mouse.RightButton))
         {
-            _playerAttack.Attack(_rightAttack);
+            playerAttack.Attack(rightAttack);
         }
         if (Input.GetMouseButtonDown((int)Mouse.CenterButton))
         {
-            _playerAttack.Attack(_pirouetteAttack);
+            playerAttack.Attack(pirouetteAttack);
         }
     }
+
     private void FixedUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
         if (!Mathf.Approximately(moveX, 0))
         {
-            _playerMove.Move(moveX);
-        }    
+            playerMove.Move(moveX);
+        }
     }
 }

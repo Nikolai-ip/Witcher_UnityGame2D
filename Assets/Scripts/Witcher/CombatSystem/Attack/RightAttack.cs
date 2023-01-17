@@ -1,4 +1,4 @@
-﻿class RightAttack : Attack
+﻿public class RightAttack : Attack
 {
     public RightAttack()
     {

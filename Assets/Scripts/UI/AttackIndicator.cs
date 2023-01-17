@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackIndicator : MonoBehaviour
@@ -8,6 +6,7 @@ public class AttackIndicator : MonoBehaviour
     {
         GetComponentInParent<AttackController>().onCanAttack += ShowAttackIndictor;
     }
+
     private void ShowAttackIndictor(object sender, bool playerCanAttack)
     {
         gameObject.SetActive(playerCanAttack);

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [SerializeField]
-public abstract class Attack: IComparable
+public abstract class Attack : IComparable
 {
     public float AnimationDuration { get; protected set; }
     public float MovePlayerTime { get; protected set; }

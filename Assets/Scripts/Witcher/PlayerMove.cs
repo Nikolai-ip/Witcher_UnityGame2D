@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -14,10 +11,12 @@ public class PlayerMove : MonoBehaviour
     private ColliderController _collider;
     private AttackMode _attackMode;
     private AnimatorController _animatorController;
-
+    private Player _it;
     private bool _playerCanWalk = true;
-    void Start()
+
+    private void Start()
     {
+        _it = GetComponent<Player>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animatorController = GetComponent<AnimatorController>();
         _attackMode = GetComponent<AttackMode>();
@@ -37,30 +36,40 @@ public class PlayerMove : MonoBehaviour
             StopWalk();
         }
     }
+
     private void StopWalk()
     {
         _animatorController.StopWalkAnimation();
         _rigidbody2D.velocity = Vector2.zero;
-
     }
+
     private void FlipCheck(float moveX)
     {
         transform.localScale = new Vector2(Mathf.Sign(moveX), 1);
     }
+
     public void Escape()
     {
+        _it.CanTakeDamage = false;
         _attackMode.TurnOn();
         _animatorController.PlayEscapeAnimation();
-        _collider.TurnOff();    
+        _collider.IgnorePlayerLayerWithEnemyCollider();
         StopAllCoroutines();
         StartCoroutine(MoveCorutine(_escapeTime, _escapeSpeed));
+        Invoke("EnableCanTakeDAmage", _escapeTime);
     }
+    private void EnableCanTakeDAmage()
+    {
+        _it.CanTakeDamage = true;
+    }
+
     public void MoveByDirection(float moveTime, float moveSpeed)
     {
         StopAllCoroutines();
-        StartCoroutine(MoveCorutine( moveTime, moveSpeed));
+        StartCoroutine(MoveCorutine(moveTime, moveSpeed));
     }
-    private  IEnumerator MoveCorutine(float moveTime, float moveSpeed)
+
+    private IEnumerator MoveCorutine(float moveTime, float moveSpeed)
     {
         float time = 0;
         float moveX = transform.localScale.x * moveSpeed;
@@ -74,5 +83,4 @@ public class PlayerMove : MonoBehaviour
         _playerCanWalk = true;
         StopWalk();
     }
-
 }

@@ -1,10 +1,10 @@
-﻿class LeftAttack : Attack
+﻿public class LeftAttack : Attack
 {
-    public  LeftAttack()
+    public LeftAttack()
     {
         AnimationDuration = 0.3f;
         CompareIndex = 0;
         MovePlayerTime = AnimationDuration;
-        AnimationName = AnimationName+CompareIndex.ToString();
+        AnimationName = AnimationName + CompareIndex.ToString();
     }
 }

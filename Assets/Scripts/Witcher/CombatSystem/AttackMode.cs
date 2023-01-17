@@ -4,7 +4,7 @@ using UnityEngine;
 public class AttackMode : MonoBehaviour
 {
     private bool _atttackModeIsOver;
-    float time;
+    private float time;
     private AnimatorController _animator;
     [SerializeField] private float _attackModeDuration;
 
@@ -13,6 +13,7 @@ public class AttackMode : MonoBehaviour
         _animator = GetComponent<AnimatorController>();
         _atttackModeIsOver = true;
     }
+
     public void TurnOn()
     {
         time = 0;
@@ -33,6 +34,5 @@ public class AttackMode : MonoBehaviour
         }
         _atttackModeIsOver = true;
         _animator.SetWitcherCalmAnimator();
-
     }
 }

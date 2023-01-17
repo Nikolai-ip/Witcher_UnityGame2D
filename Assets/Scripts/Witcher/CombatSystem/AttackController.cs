@@ -1,8 +1,6 @@
 using Assets.Scripts;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
@@ -15,7 +13,9 @@ public class AttackController : MonoBehaviour
     private PlayerMove _playerMove;
     private HitController _hitController;
     private bool _canAttack;
+
     public event EventHandler<bool> onCanAttack;
+
     public bool CanAttack
     {
         get { return _canAttack; }
@@ -53,11 +53,11 @@ public class AttackController : MonoBehaviour
         {
             CanAttack = false;
             _hitController.CheckForHit();
-            _animatorAttack.PlayAnimationWithDuration(attackType.AnimationName,attackType.AnimationDuration + _attackTimeBonuse);
+            _animatorAttack.PlayAnimationWithDuration(attackType.AnimationName, attackType.AnimationDuration + _attackTimeBonuse);
             _playerMove.MoveByDirection(attackType.MovePlayerTime, attackType.MovePlayerSpeed);
         }
     }
-    
+
     private float DefineAttackTimeBonusType()
     {
         if (IsSuccsessCombo())
@@ -70,6 +70,7 @@ public class AttackController : MonoBehaviour
             return _failedTimeBetweenAttack;
         }
     }
+
     private bool IsSuccsessCombo()
     {
         foreach (var combinations in _attackCombinations)
@@ -77,7 +78,7 @@ public class AttackController : MonoBehaviour
             if (combinations.ContainsList(_currentAttackCombination))
             {
                 return true;
-            }        
+            }
         }
         _currentAttackCombination.Clear();
         return false;

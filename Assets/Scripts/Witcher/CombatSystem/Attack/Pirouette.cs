@@ -1,5 +1,4 @@
-﻿
-class Pirouette:Attack
+﻿public class Pirouette : Attack
 {
     public Pirouette()
     {
