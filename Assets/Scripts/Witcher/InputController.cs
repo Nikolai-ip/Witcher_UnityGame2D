@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class InputController : MonoBehaviour
 {
     protected PlayerMove playerMove;
     protected AttackController playerAttack;
+    protected SignCaster signCaster;
 
     protected enum Mouse
     {

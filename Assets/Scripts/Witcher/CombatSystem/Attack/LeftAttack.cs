@@ -1,10 +1,11 @@
-﻿public class LeftAttack : Attack
+﻿[System.Serializable]
+public class LeftAttack : AttackBase
 {
     public LeftAttack()
     {
-        AnimationDuration = 0.3f;
-        CompareIndex = 0;
-        MovePlayerTime = AnimationDuration;
-        AnimationName = AnimationName + CompareIndex.ToString();
+        Duration = 0.3f;
+        AttackIndex = 0;
+        MovePlayerTime = Duration;
+        AnimationName = AnimationName + AttackIndex.ToString();
     }
 }

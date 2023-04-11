@@ -1,7 +1,9 @@
-﻿namespace Assets.Scripts
+﻿using UnityEngine;
+
+namespace Assets.Scripts
 {
     internal interface Damageable
     {
-        void TakeDamage(int damage);
+        void TakeDamage(float damage, AttackBase attackType, GameObject damager);
     }
 }

@@ -6,7 +6,8 @@ public class StanPlayerController : MonoBehaviour
     private InputController _inputController;
     private AnimatorController _animatorController;
     [SerializeField] private int _stanDurationMs;
-    void Start()
+
+    private void Start()
     {
         _inputController = GetComponent<InputController>();
         _animatorController = GetComponent<AnimatorController>();

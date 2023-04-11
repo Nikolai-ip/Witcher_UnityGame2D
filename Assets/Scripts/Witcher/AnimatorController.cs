@@ -1,3 +1,5 @@
+using Assets.Scripts.Witcher.CombatSystem.BlockType;
+using System.Collections;
 using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
@@ -8,6 +10,7 @@ public class AnimatorController : MonoBehaviour
 
     private readonly string _walkAnimationName = "IsWalk";
     private readonly string _escapeAnimationName = "Escape";
+    private readonly string _castAnimationName = "Cast";
 
     private void Start()
     {
@@ -38,8 +41,33 @@ public class AnimatorController : MonoBehaviour
     {
         _animator.SetTrigger(_escapeAnimationName);
     }
+
     public void PlayStanAnimation()
     {
+    }
 
+    public void PlayCastAnimation()
+    {
+        _animator.SetTrigger(_castAnimationName);
+    }
+
+    public void PlayBlockAnimation(bool playerOnBlock, CountreAttackBase countreAttackType)
+    {
+        if (playerOnBlock)
+        {
+            _animator.SetTrigger(countreAttackType.AnimationName);
+            StartCoroutine(PlayBlockModeAnimation(countreAttackType));
+        }
+        else
+        {
+            StopAllCoroutines();
+            _animator.SetBool(countreAttackType.AnimationName + "Mode", false);
+        }
+    }
+
+    private IEnumerator PlayBlockModeAnimation(CountreAttackBase countreAttackType)
+    {
+        yield return new WaitForSeconds(countreAttackType.AnimationExecuteDuration);
+        _animator.SetBool(countreAttackType.AnimationName + "Mode", true);
     }
 }

@@ -1,11 +1,12 @@
-﻿public class Pirouette : Attack
+﻿[System.Serializable]
+public class Pirouette : AttackBase
 {
     public Pirouette()
     {
-        AnimationDuration = 0.3f;
-        CompareIndex = 2;
-        MovePlayerTime = AnimationDuration;
+        Duration = 0.3f;
+        AttackIndex = 2;
+        MovePlayerTime = Duration;
 
-        AnimationName = AnimationName + CompareIndex.ToString();
+        AnimationName = AnimationName + AttackIndex.ToString();
     }
 }

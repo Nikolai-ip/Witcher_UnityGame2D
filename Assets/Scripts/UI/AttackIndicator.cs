@@ -4,7 +4,7 @@ public class AttackIndicator : MonoBehaviour
 {
     private void Start()
     {
-        GetComponentInParent<AttackController>().onCanAttack += ShowAttackIndictor;
+        GetComponentInParent<EntityFollower>().Entity.GetComponent<AttackController>().onCanAttack += ShowAttackIndictor;
     }
 
     private void ShowAttackIndictor(object sender, bool playerCanAttack)

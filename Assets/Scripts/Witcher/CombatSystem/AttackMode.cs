@@ -1,38 +1,34 @@
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class AttackMode : MonoBehaviour
 {
-    private bool _atttackModeIsOver;
-    private float time;
     private AnimatorController _animator;
     [SerializeField] private float _attackModeDuration;
+    private BlockController _blockController;
+    private AttackController _attackController;
 
     private void Start()
     {
         _animator = GetComponent<AnimatorController>();
-        _atttackModeIsOver = true;
+        _blockController = GetComponent<BlockController>();
+        _attackController = GetComponent<AttackController>();
     }
 
     public void TurnOn()
     {
-        time = 0;
-        if (_atttackModeIsOver)
-        {
-            _atttackModeIsOver = false;
-            AttackModeDuration();
-        }
+        StopAllCoroutines();
+        StartCoroutine(AttackModeDuration());
     }
 
-    private async void AttackModeDuration()
+    private IEnumerator AttackModeDuration()
     {
         _animator.SetWitcherFightAnimator();
-        while (time < _attackModeDuration)
+        yield return new WaitForSeconds(_attackModeDuration);
+        if (!_blockController.EntityOnBlock)
         {
-            time += Time.deltaTime;
-            await Task.Yield();
+            _animator.SetWitcherCalmAnimator();
+            _attackController.ClearCurrentAttackCombinations();
         }
-        _atttackModeIsOver = true;
-        _animator.SetWitcherCalmAnimator();
     }
 }

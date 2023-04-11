@@ -7,7 +7,7 @@ namespace Assets.Scripts
     {
         public static bool ContainsList<T>(this List<T> list, List<T> otherList) where T : IComparable
         {
-            if (otherList.Count > list.Count)
+            if (otherList.Count >= list.Count)
                 return false;
             for (int i = 0; i < list.Count; i++)
             {

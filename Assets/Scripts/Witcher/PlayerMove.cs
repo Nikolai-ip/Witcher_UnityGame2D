@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,19 +9,25 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _minMoveX;
     [SerializeField] private float _escapeTime;
     [SerializeField] private float _escapeSpeed;
+    [SerializeField] private float _escapeStaminaCost;
+    [SerializeField] private float _escapeDelay;
     private ColliderController _collider;
     private AttackMode _attackMode;
     private AnimatorController _animatorController;
-    private Player _it;
+    private Player _player;
     private bool _playerCanWalk = true;
-
+    public bool PlayerCanEscape { get; set; } = true;
+    private StaminaController _staminaController;
+    private AudioFighterController _audio;
     private void Start()
     {
-        _it = GetComponent<Player>();
+        _player = GetComponent<Player>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animatorController = GetComponent<AnimatorController>();
         _attackMode = GetComponent<AttackMode>();
         _collider = GetComponent<ColliderController>();
+        _staminaController = GetComponent<StaminaController>();
+        _audio = GetComponent<AudioFighterController>();
     }
 
     public void Move(float moveX)
@@ -50,37 +57,46 @@ public class PlayerMove : MonoBehaviour
 
     public void Escape()
     {
-        _it.CanTakeDamage = false;
+        if ((_staminaController.Stamina - _escapeStaminaCost < 0) || !PlayerCanEscape)
+            return;
+        PlayerCanEscape = false;
+        _player.CanTakeDamage = false;
+        _playerCanWalk = false;
+        _staminaController.SpendStamina(_escapeStaminaCost);
         _attackMode.TurnOn();
         _animatorController.PlayEscapeAnimation();
         _collider.IgnorePlayerLayerWithEnemyCollider();
-        StopAllCoroutines();
+        StopCoroutine(MoveCorutine(_escapeTime, _escapeSpeed));
         StartCoroutine(MoveCorutine(_escapeTime, _escapeSpeed));
-        Invoke("EnableCanTakeDAmage", _escapeTime);
-    }
-    private void EnableCanTakeDAmage()
-    {
-        _it.CanTakeDamage = true;
-    }
-
-    public void MoveByDirection(float moveTime, float moveSpeed)
-    {
-        StopAllCoroutines();
-        StartCoroutine(MoveCorutine(moveTime, moveSpeed));
+        StartCoroutine(TurnOnPlayerCanEscape());
+        _audio.PlayEscapeAudioClip();
     }
 
     private IEnumerator MoveCorutine(float moveTime, float moveSpeed)
     {
-        float time = 0;
         float moveX = transform.localScale.x * moveSpeed;
         _rigidbody2D.velocity = new Vector2(moveX, 0);
         _playerCanWalk = false;
-        while (time < moveTime)
-        {
-            time += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(moveTime);
         _playerCanWalk = true;
-        StopWalk();
+        _player.CanTakeDamage = true;
+        _playerCanWalk = true;
+    }
+
+    public void MoveByDirection(float moveTime, float moveSpeed)
+    {
+        StopCoroutine(MoveCorutine(moveTime, moveSpeed));
+        StartCoroutine(MoveCorutine(moveTime, moveSpeed));
+    }
+
+    private IEnumerator TurnOnPlayerCanEscape()
+    {
+        yield return new WaitForSeconds(_escapeDelay);
+        PlayerCanEscape = true;
+    }
+
+    public void SetPlayerCanWalk(bool playerCanWalk)
+    {
+        _playerCanWalk = playerCanWalk;
     }
 }

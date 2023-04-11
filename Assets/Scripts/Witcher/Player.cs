@@ -4,20 +4,23 @@ using UnityEngine;
 public class Player : Entity, Damageable
 {
     [SerializeField] private StanPlayerController _stanController;
+    [SerializeField] private BlockController _blockController;
+    public bool CanTakeDamage { get; set; } = true;
 
-    public bool CanTakeDamage { get ; set ; } = true;
-
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage, AttackBase attackType, GameObject damager)
     {
+        if (_blockController.EntityBlock(attackType, damager))
+            return;
         if (CanTakeDamage)
         {
-            health -= damage;
+            Health -= damage;
             animator.SetTrigger(takeDamageNameAnimation);
             _stanController.Stan();
-            if (health < 0)
+            if (Health < 0)
             {
-                GetComponent<KeyBoardController>().enabled = false;
-                Die();
+                Health = MaxHealth;
+                //GetComponent<PlayerInputController>().enabled = false;
+                //Die();
             }
         }
     }

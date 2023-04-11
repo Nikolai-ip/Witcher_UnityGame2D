@@ -1,36 +1,61 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    [SerializeField] private float _dXShake;
-    [SerializeField] private float _dYShake;
-    [SerializeField] private int _shakeCount;
-    [SerializeField] private float _delayBetweenShake;
-    private Vector3 originVector;
+    // Transform of the camera to shake. Grabs the gameObject's transform
+    // if null.
+    public Transform camTransform;
 
-    private void Start()
-    {
-        FindObjectOfType<HitController>().onHit += ShakeCamera;
-        originVector = transform.position;
-    }
+    // How long the object should shake for.
+    public float shakeDuration = 0f;
 
-    private void ShakeCamera()
-    {
-        StartCoroutine(Shake());
-    }
+    private float duration;
 
-    private IEnumerator Shake()
+    // Amplitude of the shake. A larger value shakes the camera harder.
+    public float shakeAmount = 0.7f;
+
+    public float decreaseFactor = 1.0f;
+
+    private Vector3 originalPos;
+
+    private void Awake()
     {
-        transform.position = new Vector3(transform.position.x - _dXShake, transform.position.y - _dYShake, transform.position.z);
-        for (int i = 0; i < _shakeCount; i++)
+        if (camTransform == null)
         {
-            transform.position = new Vector3(transform.position.x + _dXShake * 2, transform.position.y + _dYShake * 2, transform.position.z);
-            int sign = (int)Mathf.Pow((-1), i + 1);
-            _dXShake *= sign;
-            _dYShake *= sign;
-            yield return new WaitForSeconds(_delayBetweenShake);
+            camTransform = GetComponent(typeof(Transform)) as Transform;
         }
-        transform.position = originVector;
+        duration = shakeDuration;
+        FindObjectOfType<HitController>().onHit += ShakeCamera;
+    }
+
+    private void Update()
+    {
+        originalPos = camTransform.position;
+    }
+
+    private async void ShakeCamera()
+    {
+        while (duration > 0)
+        {
+            camTransform.position = originalPos;
+            camTransform.position = originalPos + Random.insideUnitSphere * shakeAmount;
+            camTransform.position = new Vector3(camTransform.position.x, camTransform.position.y, -10);
+            duration -= Time.deltaTime * decreaseFactor;
+            await Task.Yield();
+        }
+        duration = shakeDuration;
+    }
+    public async void ShakeCameraDoubleForce()
+    {
+        while (duration > 0)
+        {
+            camTransform.position = originalPos;
+            camTransform.position = originalPos + (Random.insideUnitSphere * shakeAmount)*2;
+            camTransform.position = new Vector3(camTransform.position.x, camTransform.position.y, -10);
+            duration -= Time.deltaTime * decreaseFactor;
+            await Task.Yield();
+        }
+        duration = shakeDuration;
     }
 }

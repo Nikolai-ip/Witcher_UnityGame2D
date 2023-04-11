@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8028539652350733276}
   - component: {fileID: 8028539652350733088}
   - component: {fileID: 8028539652350733095}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ScareCrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1825371759
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ab5b4e488c127d24e925e383c00891c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,18 +101,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.030157894}
+  m_Offset: {x: 0.18, y: 0.017935872}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.9375, y: 1.40625}
+    oldSize: {x: 1.25, y: 1.21875}
     newSize: {x: 0.9375, y: 1.40625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.34375, y: 1.2790658}
+  m_Size: {x: 0.34375, y: 1.1893618}
   m_EdgeRadius: 0
 --- !u!50 &8028539652350733276
 Rigidbody2D:
@@ -147,7 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f621d9fbe0a9349b34628fe15da1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1000
+  health: 2484
+  maxStamina: 0
+  minStamina: 0
+  timeForDie: 3
+  isLive: 1
+  canTakeDamage: 1
 --- !u!95 &8028539652350733095
 Animator:
   serializedVersion: 5

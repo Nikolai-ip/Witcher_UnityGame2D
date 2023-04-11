@@ -1,48 +1,20 @@
-using AISystem;
-using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class StanEnemyController : MonoBehaviour
 {
-    private State[] _states;
-    private AIStateMachine _stateMachine;
-    private Animator _animatorController;
-    [SerializeField] private int _stanDurationMs;
+    private StateMachine _stateMachine;
 
-    void Start()
+    private void Start()
     {
-        _states = GetComponents<State>();
-        _stateMachine = GetComponent<AIStateMachine>();
-        _animatorController = GetComponent<Animator>();
+        _stateMachine = GetComponent<StateMachine>();
     }
 
-    public void Stan()
+    public void CountreAttackStun()
     {
-        if (_states != null)
-        {
-            _animatorController.SetTrigger("Stan");
-            StartCoroutine(TurnOffStatesCourutine());
-        }
+        _stateMachine.ChangeState(_stateMachine.CountreAttackStun);
     }
-    private IEnumerator TurnOffStatesCourutine()
-    {
-        float time = 0;
-        while (time<_stanDurationMs)
-        {
-            _stateMachine.enabled = false;
-            time += Time.deltaTime; 
-            TurnOffStates();
-            yield return null;
-        }
-        _stateMachine.enabled = true;
 
-    }
-    private void TurnOffStates()
+    public void BlockStun()
     {
-        foreach (var state in _states)
-        {
-            state.Disable();
-        }
     }
 }
